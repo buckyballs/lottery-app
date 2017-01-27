@@ -28,7 +28,13 @@ public class LotteryServiceRepoImpl implements LotteryService {
     }
 
     @Override
+    public Lottery getById(Integer id) {
+        return lotteryRepository.findOne(id);
+    }
+
+    @Override
     public Lottery saveOrUpdate(Lottery domainObject) {
         return lotteryRepository.save(domainObject);
     }
+
 }

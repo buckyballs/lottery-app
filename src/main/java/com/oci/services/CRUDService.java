@@ -5,5 +5,7 @@ package com.oci.services;
  */
 public interface CRUDService<T> {
 
+    T getById(Integer id);
+
     T saveOrUpdate(T domainObject);
 }

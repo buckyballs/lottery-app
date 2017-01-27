@@ -28,6 +28,11 @@ public class ParticipantServiceRepoImpl implements ParticipantService{
     }
 
     @Override
+    public Participant getById(Integer id) {
+        return participantRepository.findOne(id);
+    }
+
+    @Override
     public Participant saveOrUpdate(Participant domainObject) {
         return participantRepository.save(domainObject);
     }
