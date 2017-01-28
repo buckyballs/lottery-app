@@ -3,9 +3,11 @@ package com.oci.controllers;
 import com.oci.domain.Lottery;
 import com.oci.services.LotteryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ import javax.validation.Valid;
 public class LotteryController {
 
     private LotteryService lotteryService;
-    //private Validator lotteryValidator;
+    private Validator lotteryValidator;
     private Lottery lottery;
 
     @Autowired
@@ -29,11 +31,11 @@ public class LotteryController {
         this.lotteryService = lotteryService;
     }
 
-/*    @Autowired
+    @Autowired
     @Qualifier("lotteryValidator")
     public void setLotteryValidator(Validator lotteryValidator) {
         this.lotteryValidator = lotteryValidator;
-    }*/
+    }
 
     @Autowired
     public void setLottery(Lottery lottery) {
@@ -52,7 +54,7 @@ public class LotteryController {
     }
 
     @RequestMapping("/show/{id}")
-    public String showLOttery(@PathVariable Integer id, Model model) {
+    public String showLottery(@PathVariable Integer id, Model model) {
         model.addAttribute("lottery", lotteryService.getById(id));
         return "lottery/show";
     }
@@ -60,7 +62,7 @@ public class LotteryController {
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid Lottery lottery, BindingResult bindingResult) {
 
-        //lotteryValidator.validate(lottery, bindingResult);
+        lotteryValidator.validate(lottery, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "lottery/lotteryform";
@@ -69,6 +71,5 @@ public class LotteryController {
         Lottery newLottery = lotteryService.saveOrUpdate(lottery);
         return "redirect:lottery/show/" + newLottery.getLotteryId();
     }
-
 
 }

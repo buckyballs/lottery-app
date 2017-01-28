@@ -1,13 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Participant Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
+
+<div class="container">
+
+    <h2>Enter Participant Information</h2>
+    <div>
+        <form class="form-horizontal" th:object="${participant}" th:action="@{/participant}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p th:text="#{form.hasErrors}">Error Message</p>
+            </div>
+
+            <!--<input type="hidden" th:field="*{name}"/>
+            <input type="hidden" th:field="*{email}"/>-->
+
+            <div class="form-group" th:class="${#fields.hasErrors('name')} ? 'form-group has-error':'form-group'">
+                <label class="col-sm-4 control-label">Name:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" th:field="*{name}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('name')}" th:text="${err}"/>
+                       </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group"
+                 th:class="${#fields.hasErrors('email')} ? 'form-group has-error' : 'form-group'">
+                <label class="col-sm-4 control-label">Email:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" th:field="*{email}" th:errorclass="has-error"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('email')}" th:text="${err}"/>
+                       </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

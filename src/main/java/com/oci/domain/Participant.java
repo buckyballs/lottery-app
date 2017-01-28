@@ -1,7 +1,6 @@
 package com.oci.domain;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +15,13 @@ public class Participant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer participantId;
+    private Integer participantId = 1;
 
-    @NotEmpty
-    @NotBlank
+    @NotEmpty(message = "Please enter participant name.")
     private String name;
 
-    @NotEmpty
-    @NotBlank
-    @Email
+    @NotEmpty(message = "Email cannot be empty.")
+    @Email(message = "Please enter valid email.")
     @Column(unique = true)
     private String email;
 

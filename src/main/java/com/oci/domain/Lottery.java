@@ -1,14 +1,11 @@
 package com.oci.domain;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -19,27 +16,18 @@ import java.util.Date;
 public class Lottery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer lotteryId;
+    //@GeneratedValue(strategy = GenerationType.AUTO) // uncomment it to run app for multiple lotteries
+    private Integer lotteryId = 1;
 
-    @NotNull
-    @NotBlank
-    @NotEmpty
+    @DateTimeFormat(pattern = "mm/dd/yyyy hh:mm a")
     private Date drawingTime;
 
-    @NotNull
-    @NotBlank
-    @NotEmpty
-    private String password;
+    private String passwordText;
 
-    @NotNull
-    @NotBlank
-    @NotEmpty
+    @NotEmpty(message = "Prize description cannot be empty")
     private String prizeDescription;
 
-    @NotNull
-    @NotBlank
-    @NotEmpty
+    @NotEmpty(message = "Message to winner cannot be empty")
     private String msgToWinner;
 
     public Integer getLotteryId() {
@@ -58,12 +46,12 @@ public class Lottery {
         this.drawingTime = drawingTime;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordText() {
+        return passwordText;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordText(String passwordText) {
+        this.passwordText = passwordText;
     }
 
     public String getPrizeDescription() {
