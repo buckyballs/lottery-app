@@ -15,10 +15,15 @@
           th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
+<div class="container">
+    <div class="col-sm-3">
+        <img src="/images/oci.jpg" title="OCI" alt="OCI" th:class="img-responsive"/>
+    </div>
+</div>
 
 <div class="container">
 
-    <h2>Enter Participant Information</h2>
+    <h2 align="center">Enter Participant Information</h2>
     <div>
         <form class="form-horizontal" th:object="${participant}" th:action="@{/participant}" method="post">
 
@@ -56,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" align="center">
                 <button type="submit" class="btn btn-default">Submit</button>
             </div>
         </form>
