@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -21,6 +22,8 @@ public class Lottery {
 
     @DateTimeFormat(pattern = "mm/dd/yyyy hh:mm a")
     private Date drawingTime;
+
+    private String formattedDrawningTime;
 
     private String passwordText;
 
@@ -44,6 +47,14 @@ public class Lottery {
 
     public void setDrawingTime(Date drawingTime) {
         this.drawingTime = drawingTime;
+    }
+
+    public String getFormattedDrawningTime() {
+        return new SimpleDateFormat("mm/dd/yyyy hh:mm a").format(drawingTime);
+    }
+
+    public void setFormattedDrawningTime(String formattedDrawningTime) {
+        this.formattedDrawningTime = formattedDrawningTime;
     }
 
     public String getPasswordText() {

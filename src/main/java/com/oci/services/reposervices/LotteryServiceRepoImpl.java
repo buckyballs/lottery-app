@@ -2,6 +2,7 @@ package com.oci.services.reposervices;
 
 import com.oci.domain.Lottery;
 import com.oci.repositories.LotteryRepository;
+import com.oci.security.EncryptionService;
 import com.oci.services.LotteryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -16,6 +17,12 @@ public class LotteryServiceRepoImpl implements LotteryService {
 
     private LotteryRepository lotteryRepository;
     private Lottery lottery;
+    private EncryptionService encryptionService;
+
+    @Autowired
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
     @Autowired
     public void setLotteryRepository(LotteryRepository lotteryRepository) {
@@ -34,6 +41,7 @@ public class LotteryServiceRepoImpl implements LotteryService {
 
     @Override
     public Lottery saveOrUpdate(Lottery domainObject) {
+        domainObject.setPasswordText(encryptionService.encryptString(domainObject.getPasswordText()));
         return lotteryRepository.save(domainObject);
     }
 

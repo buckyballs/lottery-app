@@ -1,17 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">  
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8"/>
-<title>Insert title here</title>
+    <title>Participant Details</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<div class="container">
-	<div class="col-sm-3">
-		<img src="/images/oci.jpg" title="OCI" alt="OCI" th:class="img-responsive"/>
-	</div>
+<div class="row">
+    <div class="col-sm-6">
+        <h1 th:text="${errorMsg}"></h1>
+    </div>
 </div>
-
-	<h1 th:text="${errorMsg}"></h1>
-
+<!--<div class="container" align="center">
+    <div class="col-sm-3">
+        <img src="/images/oci.jpg" title="OCI" alt="OCI" th:class="img-responsive"/>
+    </div>
+</div>-->
 </body>
 </html>
