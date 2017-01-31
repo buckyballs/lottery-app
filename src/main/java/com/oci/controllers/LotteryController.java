@@ -43,13 +43,16 @@ public class LotteryController {
     }
 
     @ModelAttribute("lottery")
-    public Lottery loadEmptyModelBean(){
-        return new Lottery();
+    public Lottery loadEmptyModelBean() {
+        return lottery;
     }
 
     @RequestMapping("/new")
     public String newLottery(Model model) {
-        model.addAttribute("lotteryForm", new Lottery());
+        if (lotteryService.listAll().isEmpty())
+            model.addAttribute("lotteryform", lottery);
+        else
+            return "redirect:errors";
         return "lottery/lotteryform";
     }
 
@@ -61,6 +64,11 @@ public class LotteryController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid Lottery lottery, BindingResult bindingResult) {
+
+        // return to error page if Lottery already exist
+        if(!lotteryService.listAll().isEmpty()){
+            return "redirect:errors";
+        }
 
         lotteryValidator.validate(lottery, bindingResult);
 

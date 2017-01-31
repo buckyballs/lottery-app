@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Date;
+
 /**
  * Created by Ishtiaq on 1/18/2017.
  */
@@ -27,6 +29,8 @@ public class LotteryValidator implements Validator {
 
         if (!lottery.getPasswordText().equals(lotteryPassword)) {
             errors.rejectValue("passwordText", "PasswordsDontMatch.lotteryForm.passwordText", "Provided password is incorrect");
+        }else if (lottery.getDrawingTime().before(new Date())){
+            errors.rejectValue("drawingTime", "PastDrawTimeDate.lotteryForm.drawingTime", "Please provide future draw date");
         }
     }
 }

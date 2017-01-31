@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by maqsoodi on 1/26/2017.
  */
@@ -45,4 +48,10 @@ public class LotteryServiceRepoImpl implements LotteryService {
         return lotteryRepository.save(domainObject);
     }
 
+    @Override
+    public List<?> listAll() {
+        List<Lottery> lotteries = new ArrayList<>();
+        lotteryRepository.findAll().forEach(lotteries::add);
+        return lotteries;
+    }
 }

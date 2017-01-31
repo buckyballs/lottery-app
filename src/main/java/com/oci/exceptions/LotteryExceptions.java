@@ -5,19 +5,19 @@ import com.oci.exceptions.errorcodes.ErrorCodes;
 /**
  * Created by Ishtiaq on 1/27/2017.
  */
-public class LottryExceptions extends RuntimeException {
+public class LotteryExceptions extends RuntimeException {
 
     private ErrorCodes errorCodes;
 
-    public LottryExceptions(ErrorCodes errorCodes) {
+    public LotteryExceptions(ErrorCodes errorCodes) {
         this.errorCodes = errorCodes;
     }
 
-    public LottryExceptions(String message) {
+    public LotteryExceptions(String message) {
         super(message);
     }
 
-    public LottryExceptions(String message, Throwable cause) {
+    public LotteryExceptions(String message, Throwable cause) {
         super(message, cause);
     }
 

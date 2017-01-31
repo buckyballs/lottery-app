@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by maqsoodi on 1/26/2017.
  */
@@ -35,5 +38,12 @@ public class ParticipantServiceRepoImpl implements ParticipantService{
     @Override
     public Participant saveOrUpdate(Participant domainObject) {
         return participantRepository.save(domainObject);
+    }
+
+    @Override
+    public List<?> listAll() {
+        List<Participant> participants = new ArrayList<>();
+        participantRepository.findAll().forEach(participants::add);
+        return participants;
     }
 }

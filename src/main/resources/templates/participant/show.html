@@ -43,6 +43,18 @@
                         <p class="form-control-static" th:text="${participant?.email}">Participant Name</p>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Remaining Time:</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" th:text="${remainingTime}">Remaining Time for Draw</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Win Chances:</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" th:text="${winChances}">Chances To Win</p>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
