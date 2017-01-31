@@ -25,7 +25,7 @@
 
     <h2 align="center">Enter Participant Information</h2>
     <div>
-        <form class="form-horizontal" th:object="${participant}" th:action="@{/participant}" method="post">
+        <form class="form-horizontal" th:object="${participant}" th:action="@{/participant/add}" method="post">
 
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                 <p th:text="#{form.hasErrors}">Error Message</p>

@@ -3,16 +3,19 @@ package com.oci.controllers;
 import com.oci.domain.Participant;
 import com.oci.services.LotteryService;
 import com.oci.services.ParticipantService;
-import com.oci.services.SecureFormDisplatService;
 import com.oci.util.DateTimeUtils;
 import com.oci.util.RandomNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -25,7 +28,6 @@ public class ParticipantController {
     private Participant participant;
     private ParticipantService participantService;
     private LotteryService lotteryService;
-    private SecureFormDisplatService secureFormDisplatService;
 
     @Autowired
     public void setParticipant(Participant participant) {
@@ -42,11 +44,6 @@ public class ParticipantController {
         this.lotteryService = lotteryService;
     }
 
-    @Autowired
-    public void setSecureFormDisplatService(SecureFormDisplatService secureFormDisplatService) {
-        this.secureFormDisplatService = secureFormDisplatService;
-    }
-
     @ModelAttribute("participant")
     public Participant loadEmptyModelBean() {
         return participant;
@@ -58,38 +55,29 @@ public class ParticipantController {
         return "participant/participantform";
     }
 
-    @RequestMapping("/show")
-    public String showParticipant(@RequestBody Participant participant, Model model) {
-        model.addAttribute("participant", participant);
-        model.addAttribute("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
-        model.addAttribute("winChances", participantService.listAll().isEmpty() ? "100%" : (100 / participantService.listAll().size()) + "%");
-        return "participant/show";
-    }
-
-    @RequestMapping("/winner")
-    public String showWinner(Model model) {
-        Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
-        Participant winner = (Participant) participantService.listAll().get(winnerIndex);
-        model.addAttribute("winner", winner);
-        model.addAttribute("msgToWinner", lotteryService.getById(1).getMsgToWinner());
-        model.addAttribute("prizeDescription", lotteryService.getById(1).getPrizeDescription());
-        return "participant/winner";
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public String saveOrUpdate(@Valid Participant participant, BindingResult bindingResult) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public ModelAndView saveOrUpdate(@Valid Participant participant, ModelAndView modelAndView) {
         try {
             if (new Date().before(lotteryService.getById(1).getDrawingTime())) {
                 Participant newParticipant = participantService.saveOrUpdate(participant);
-                secureFormDisplatService.showInfoToParticipant(participant);
-                ;
-                return "";
+                modelAndView.addObject("newParticipant", newParticipant);
+                modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
+                modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0/participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP)  + "%");
+                modelAndView.setViewName("participant/show");
+                return modelAndView;
             } else {
-                secureFormDisplatService.showInfoToParticipant(participant);
-                return "";
+                Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
+                Participant winner = (Participant) participantService.listAll().get(winnerIndex);
+                modelAndView.addObject("winner", winner);
+                modelAndView.addObject("msgToWinner", lotteryService.getById(1).getMsgToWinner());
+                modelAndView.addObject("prizeDescription", lotteryService.getById(1).getPrizeDescription());
+                modelAndView.setViewName("participant/winner");
+                return modelAndView;
             }
         } catch (Exception e) {
-            return "redirect:errors";
+            modelAndView.setViewName("redirect:errors");
+            return modelAndView;
         }
     }
 }
