@@ -1,5 +1,6 @@
 package com.oci.controllers;
 
+import com.oci.domain.LotteryWinner;
 import com.oci.domain.Participant;
 import com.oci.services.LotteryService;
 import com.oci.services.ParticipantService;
@@ -27,6 +28,7 @@ public class ParticipantController {
     private Participant participant;
     private ParticipantService participantService;
     private LotteryService lotteryService;
+    private LotteryWinner lotteryWinner;
 
     @Autowired
     public void setParticipant(Participant participant) {
@@ -41,6 +43,11 @@ public class ParticipantController {
     @Autowired
     public void setLotteryService(LotteryService lotteryService) {
         this.lotteryService = lotteryService;
+    }
+
+    @Autowired
+    public void setLotteryWinner(LotteryWinner lotteryWinner) {
+        this.lotteryWinner = lotteryWinner;
     }
 
     @ModelAttribute("participant")
@@ -80,12 +87,23 @@ public class ParticipantController {
     }
 
     private ModelAndView getWinner(ModelAndView modelAndView) {
-        Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
-        Participant winner = (Participant) participantService.listAll().get(winnerIndex);
-        modelAndView.addObject("winner", winner);
+        if (lotteryWinner.getLotteryWinner() == null) {
+            Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
+            Participant winner = (Participant) participantService.listAll().get(winnerIndex);
+            winner.setWinner(true);
+            participantService.saveOrUpdate(winner);
+            lotteryWinner.setLotteryWinner(winner);
+            populateWinnnerModelAndView(modelAndView);
+        } else {
+            populateWinnnerModelAndView(modelAndView);
+        }
+        return modelAndView;
+    }
+
+    private void populateWinnnerModelAndView(ModelAndView modelAndView) {
+        modelAndView.addObject("winner", lotteryWinner.getLotteryWinner());
         modelAndView.addObject("msgToWinner", lotteryService.getById(1).getMsgToWinner());
         modelAndView.addObject("prizeDescription", lotteryService.getById(1).getPrizeDescription());
         modelAndView.setViewName("participant/winner");
-        return modelAndView;
     }
 }

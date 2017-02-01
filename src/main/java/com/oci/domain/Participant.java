@@ -25,6 +25,8 @@ public class Participant {
     @Column(unique = true)
     private String email;
 
+    private Boolean winner = Boolean.FALSE;
+
     public Integer getParticipantId() {
         return participantId;
     }
@@ -47,5 +49,13 @@ public class Participant {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Boolean winner) {
+        this.winner = winner;
     }
 }
