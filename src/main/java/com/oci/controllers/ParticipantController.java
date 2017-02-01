@@ -28,6 +28,8 @@ public class ParticipantController {
     private Participant participant;
     private ParticipantService participantService;
     private LotteryService lotteryService;
+
+    @Autowired
     private LotteryWinner lotteryWinner;
 
     @Autowired
@@ -45,10 +47,10 @@ public class ParticipantController {
         this.lotteryService = lotteryService;
     }
 
-    @Autowired
+/*    @Autowired
     public void setLotteryWinner(LotteryWinner lotteryWinner) {
         this.lotteryWinner = lotteryWinner;
-    }
+    }*/
 
     @ModelAttribute("participant")
     public Participant loadEmptyModelBean() {

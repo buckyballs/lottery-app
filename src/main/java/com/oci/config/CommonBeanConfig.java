@@ -1,5 +1,6 @@
 package com.oci.config;
 
+import com.oci.domain.LotteryWinner;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,4 +16,11 @@ public class CommonBeanConfig {
         StrongPasswordEncryptor strongPasswordEncryptor = new StrongPasswordEncryptor();
         return strongPasswordEncryptor;
     }
+
+    @Bean
+    public LotteryWinner getLotteryWinner(){
+        LotteryWinner lotteryWinner = new LotteryWinner();
+        return lotteryWinner;
+    }
+
 }
