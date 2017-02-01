@@ -30,7 +30,7 @@ public class LotteryValidator implements Validator {
         if (!lottery.getPasswordText().equals(lotteryPassword)) {
             errors.rejectValue("passwordText", "PasswordsDontMatch.lotteryForm.passwordText", "Provided password is incorrect");
         }else if (lottery.getDrawingTime().before(new Date())){
-            errors.rejectValue("drawingTime", "PastDrawTimeDate.lotteryForm.drawingTime", "Please provide future draw date");
+            errors.rejectValue("drawingTime", "PastDrawTimeDate.lotteryForm.drawingTime", "Please provide future draw date in format MM/dd/yyyy hh:mm AM/PM");
         }
     }
 }

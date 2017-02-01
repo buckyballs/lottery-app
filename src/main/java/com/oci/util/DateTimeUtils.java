@@ -13,7 +13,7 @@ public class DateTimeUtils {
 
     public static String calDuration(Date pastDate, Date futureDate) {
         String duration = null;
-        SimpleDateFormat format = new SimpleDateFormat("mm/dd/yyyy hh:mm a");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         try {
             DateTime jodapastDate = new DateTime(pastDate);
             DateTime jodaFutureDate = new DateTime(futureDate);

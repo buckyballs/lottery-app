@@ -7,7 +7,6 @@ import com.oci.util.DateTimeUtils;
 import com.oci.util.RandomNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,9 +49,14 @@ public class ParticipantController {
     }
 
     @RequestMapping("/new")
-    public String newParticipant(Model model) {
-        model.addAttribute("participantform", participant);
-        return "participant/participantform";
+    public ModelAndView newParticipant(ModelAndView modelAndView) {
+        if (!new Date().before(lotteryService.getById(1).getDrawingTime())) {
+            return getWinner(modelAndView);
+        } else {
+            modelAndView.addObject("participantform", participant);
+            modelAndView.setViewName("participant/participantform");
+            return modelAndView;
+        }
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -63,21 +67,25 @@ public class ParticipantController {
                 Participant newParticipant = participantService.saveOrUpdate(participant);
                 modelAndView.addObject("newParticipant", newParticipant);
                 modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
-                modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0/participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP)  + "%");
+                modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0 / participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
                 modelAndView.setViewName("participant/show");
                 return modelAndView;
             } else {
-                Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
-                Participant winner = (Participant) participantService.listAll().get(winnerIndex);
-                modelAndView.addObject("winner", winner);
-                modelAndView.addObject("msgToWinner", lotteryService.getById(1).getMsgToWinner());
-                modelAndView.addObject("prizeDescription", lotteryService.getById(1).getPrizeDescription());
-                modelAndView.setViewName("participant/winner");
-                return modelAndView;
+                return getWinner(modelAndView);
             }
         } catch (Exception e) {
             modelAndView.setViewName("redirect:errors");
             return modelAndView;
         }
+    }
+
+    private ModelAndView getWinner(ModelAndView modelAndView) {
+        Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
+        Participant winner = (Participant) participantService.listAll().get(winnerIndex);
+        modelAndView.addObject("winner", winner);
+        modelAndView.addObject("msgToWinner", lotteryService.getById(1).getMsgToWinner());
+        modelAndView.addObject("prizeDescription", lotteryService.getById(1).getPrizeDescription());
+        modelAndView.setViewName("participant/winner");
+        return modelAndView;
     }
 }
