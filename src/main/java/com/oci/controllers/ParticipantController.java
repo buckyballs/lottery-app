@@ -63,6 +63,7 @@ public class ParticipantController {
             return getWinner(modelAndView);
         } else {
             modelAndView.addObject("participantform", participant);
+            modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
             modelAndView.setViewName("participant/participantform");
             return modelAndView;
         }
@@ -76,6 +77,7 @@ public class ParticipantController {
                 Participant newParticipant = participantService.saveOrUpdate(participant);
                 modelAndView.addObject("newParticipant", newParticipant);
                 modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
+                modelAndView.addObject("drawingTime", lotteryService.getById(1).getDrawingTime());
                 modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0 / participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
                 modelAndView.setViewName("participant/show");
                 return modelAndView;

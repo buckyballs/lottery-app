@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Panera Group Order</title>
+</head>
+
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" id="infoContainer"
+       style="font-size: 12px">
+    <tr>
+        <td><img src="${imagesBaseUrl}/header.jpg" width="630" height="57" alt="Panera"/></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td valign="top">
+    <tr>
+        <td style="line-height: normal; font-size: 15px; align-content: stretch">
+            $winnerName, Congratulatons! for winning the lottery.
+
+
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="font-size:14px;">
+                <tr>
+                    <td style="font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 8px;">
+                        Type
+                    </td>
+                    <td style="font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 8px;">
+                        Amnt.
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Thank you for setting up a group order. Your order, $groupOrderName, has been
+            created and will be delivered on $date at $time to
+            $address.address1 $!address.address2 $address.city, $address.countryDivision $address.postalCode.
+            If we need to reach you, we'll contact you at
+            $adminPhoneNumber.<br/><br/>
+            If you'd like to invite more people to order with you, you can
+            send them the link below. This is also the link you should use
+            to review your order, so please keep it handy.
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="font-size: 15px;">
+            <a href="${groupOrderLink}">Click here to start your group order</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
