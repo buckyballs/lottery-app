@@ -77,6 +77,8 @@ public class ParticipantController {
             if (new Date().before(lotteryService.getById(1).getDrawingTime())) {
                 List<Participant> participants = (List<Participant>) participantService.listAll();
                 if (!ObjectOperations.containsEmail(participants, participant)) {
+                    // increment participant id to save as new record in table
+                    participant.setParticipantId(participants.size() + 1);
                     Participant newParticipant = participantService.saveOrUpdate(participant);
                     modelAndView.addObject("newParticipant", newParticipant);
                     modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
@@ -92,6 +94,7 @@ public class ParticipantController {
                 return modelAndView;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             modelAndView.setViewName("redirect:errors");
             return modelAndView;
         }

@@ -48,8 +48,8 @@ public class EmailScheduler {
             Integer winnerIndex = RandomNumber.randInt(0, participantService.listAll().size() - 1);
             Participant winner = (Participant) participantService.listAll().get(winnerIndex);
             winner.setWinner(true);
-            participantService.saveOrUpdate(winner);
-            lotteryWinner.setLotteryWinner(winner);
+            Participant savedWinner = participantService.saveOrUpdate(winner);
+            lotteryWinner.setLotteryWinner(savedWinner);
 
             // send email to winner
             final Map lotteryWinnerEmailMap = new HashMap();
