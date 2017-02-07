@@ -24,8 +24,16 @@
 <div class="container">
 
     <h2 align="center">Enter Participant Information</h2>
+
     <div>
         <form class="form-horizontal" th:object="${participant}" th:action="@{/participant/add}" method="post">
+
+            <div class="form-group">
+                <label class="col-sm-7 control-label">Remaining Time:</label>
+                <div class="col-sm-5">
+                    <p class="form-control-static" th:text="${remainingTime}">Remaining Time</p>
+                </div>
+            </div>
 
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                 <p th:text="#{form.hasErrors}">Error Message</p>

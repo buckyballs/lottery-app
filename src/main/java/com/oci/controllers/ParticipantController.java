@@ -16,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by maqsoodi on 1/26/2017.
@@ -64,6 +66,8 @@ public class ParticipantController {
             modelAndView.setViewName("redirect:errors");
             return modelAndView;
         } else {
+            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.getDefault());
+            modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
             modelAndView.addObject("participantform", participant);
             modelAndView.setViewName("participant/participantform");
             return modelAndView;
