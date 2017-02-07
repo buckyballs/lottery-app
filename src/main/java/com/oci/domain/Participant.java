@@ -22,7 +22,7 @@ public class Participant {
 
     @NotEmpty(message = "Email cannot be empty.")
     @Email(message = "Please enter valid email.")
-    @Column(unique = true)
+    //@Column(unique = true)
     private String email;
 
     private Boolean winner = Boolean.FALSE;

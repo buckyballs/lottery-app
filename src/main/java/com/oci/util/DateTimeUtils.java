@@ -25,4 +25,8 @@ public class DateTimeUtils {
         }
         return duration;
     }
+
+    public static Date addDuration(Date date, long duration) {
+        return new DateTime(date).plus(duration).toDate();
+    }
 }

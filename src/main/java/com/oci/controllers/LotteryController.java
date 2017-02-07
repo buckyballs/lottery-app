@@ -1,6 +1,7 @@
 package com.oci.controllers;
 
 import com.oci.domain.Lottery;
+import com.oci.schedulers.EmailScheduler;
 import com.oci.services.LotteryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,9 @@ public class LotteryController {
     private LotteryService lotteryService;
     private Validator lotteryValidator;
     private Lottery lottery;
+
+    @Autowired
+    private EmailScheduler emailScheduler;
 
     @Autowired
     public void setLotteryService(LotteryService lotteryService) {
@@ -77,6 +81,7 @@ public class LotteryController {
         }
 
         Lottery newLottery = lotteryService.saveOrUpdate(lottery);
+        emailScheduler.sendEmailToLotteryWinner(newLottery.getDrawingTime());
         return "redirect:lottery/show/" + newLottery.getLotteryId();
     }
 

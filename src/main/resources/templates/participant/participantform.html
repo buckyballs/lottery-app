@@ -13,50 +13,19 @@
 
     <link href="../../static/css/spring-core.css"
           th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
-
-    <script>
-        function clockTick() {
-/*            var currentTime = new Date(),
-             month = currentTime.getMonth() + 1,
-             day = currentTime.getDate(),
-             year = currentTime.getFullYear(),
-             hours = currentTime.getHours(),
-             minutes = currentTime.getMinutes(),
-             seconds = currentTime.getSeconds(),
-             text = (month + "/" + day + "/" + year + ' ' + hours + ':' + minutes + ':' + seconds);
-             // here we get the element with the id of "date" and change the content to the text variable we made above
-             document.getElementById('date').innerHTML = text;*/
-            var drawDate = "${remainingTime}";
-            document.getElementById('date').innerHTML = drawDate;
-
-        }
-
-        //var drawDate = "${drawingTime}";
-       // document.getElementById('draw').innerHTML = drawDate;
-        // here we run the clockTick function every 1000ms (1 second)
-        setInterval(clockTick, 1000);
-    </script>
-
 </head>
 <body>
 <div class="container">
     <div class="col-sm-3">
-        <img src="/images/oci.jpg" title="OCI" alt="OCI" th:class="img-responsive"/>
+        <img src="/images/oci.jpg" title="Title: OCI" alt="Alt: OCI" th:class="img-responsive"/>
     </div>
 </div>
 
 <div class="container">
 
-    <h2 align="center">Enter Participant Information </h2>
+    <h2 align="center">Enter Participant Information</h2>
     <div>
         <form class="form-horizontal" th:object="${participant}" th:action="@{/participant/add}" method="post">
-
-            <span id="date"></span>
-            <br/>
-            <span id="${remainingTime}">${remainingTime}</span>
-            <!--<br/>-->
-            <!--<span id="drawDate"></span>-->
-
 
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                 <p th:text="#{form.hasErrors}">Error Message</p>

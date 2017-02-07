@@ -3,6 +3,7 @@ package com.oci.services;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -19,16 +20,16 @@ import java.util.Map;
 @Service
 public class EmailService {
 
-    //@Value("${mail.from.address.group.order}")
+    @Value("${email.server.username}")
     private String fromAddress;
 
-    //@Value("${mail.images.url}")
+    @Value("${oci.image.url}")
     private String imageUrl;
 
     @Autowired
     private VelocityEngine velocityEngine;
 
-    //@Autowired
+    @Autowired
     private JavaMailSender mailSender;
 
     /**
@@ -45,15 +46,15 @@ public class EmailService {
                     @Override
                     public void prepare(MimeMessage mimeMessage) throws Exception {
                         MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                        message.setFrom(fromAddress, "Object Computing Inc. OCI");
+                        message.setFrom(fromAddress, "OCI");
                         message.setTo(String.valueOf(lotteryWinnerEmailMap.get("winnerEmail")));
-                        message.setSubject("You've won the Lottery.");
+                        message.setSubject("Congratulations!");
                         Map model = new HashMap<>();
                         model.put("imagesBaseUrl", imageUrl);
-                        model.put("winnerName", String.valueOf(lotteryWinnerEmailMap.get("winnerEmail")));
+                        model.put("winnerName", String.valueOf(lotteryWinnerEmailMap.get("winnerName")));
                         model.put("msgToWinner", String.valueOf(lotteryWinnerEmailMap.get("msgToWinner")));
                         model.put("prizeDescription", String.valueOf(lotteryWinnerEmailMap.get("prizeDescription")));
-                        String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "templates/lotteryWinnerEmail.vm", "UTF-8", model);
+                        String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "templates/email/lotteryWinnerEmail.vm", "UTF-8", model);
                         message.setText(text, true);
                     }
                 };
