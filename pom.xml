@@ -117,7 +117,6 @@
             <plugin>
                 <groupId>com.google.appengine</groupId>
                 <artifactId>gcloud-maven-plugin</artifactId>
-                <version>LATEST</version>
             </plugin>
           
         </plugins>
