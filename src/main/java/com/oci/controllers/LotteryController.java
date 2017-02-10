@@ -3,6 +3,7 @@ package com.oci.controllers;
 import com.oci.domain.Lottery;
 import com.oci.schedulers.EmailScheduler;
 import com.oci.services.LotteryService;
+import com.oci.services.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class LotteryController {
     private LotteryService lotteryService;
     private Validator lotteryValidator;
     private Lottery lottery;
+    private ParticipantService participantService;
 
     @Autowired
     private EmailScheduler emailScheduler;
@@ -46,6 +48,11 @@ public class LotteryController {
         this.lottery = lottery;
     }
 
+    @Autowired
+    public void setParticipantService(ParticipantService participantService) {
+        this.participantService = participantService;
+    }
+
     @ModelAttribute("lottery")
     public Lottery loadEmptyModelBean() {
         return lottery;
@@ -53,10 +60,11 @@ public class LotteryController {
 
     @RequestMapping("/new")
     public String newLottery(Model model) {
+        // Allow admin to update lottery, this will keep previously entered participants in the lottery
         if (lotteryService.listAll().isEmpty())
             model.addAttribute("lotteryform", lottery);
         else
-            return "redirect:errors";
+            return "lottery/show";
         return "lottery/lotteryform";
     }
 
@@ -69,10 +77,10 @@ public class LotteryController {
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid Lottery lottery, BindingResult bindingResult) {
 
-        // return to error page if Lottery already exist
-        if(!lotteryService.listAll().isEmpty()){
+        // Allow admin to update lottery, this will keep previously entered participants in the lottery
+        /*if(!lotteryService.listAll().isEmpty()){
             return "redirect:errors";
-        }
+        }*/
 
         lotteryValidator.validate(lottery, bindingResult);
 
@@ -83,6 +91,16 @@ public class LotteryController {
         Lottery newLottery = lotteryService.saveOrUpdate(lottery);
         emailScheduler.sendEmailToLotteryWinner(newLottery.getDrawingTime());
         return "redirect:lottery/show/" + newLottery.getLotteryId();
+    }
+
+    @RequestMapping(value = "/delete-oci-lottery", method = RequestMethod.GET)
+    public String deleteLottery() {
+        // delete lottery and all participants
+        if (!lotteryService.listAll().isEmpty())
+            lotteryService.delete();
+        if (!participantService.listAll().isEmpty())
+            participantService.delete();
+        return "redirect:new";
     }
 
 }

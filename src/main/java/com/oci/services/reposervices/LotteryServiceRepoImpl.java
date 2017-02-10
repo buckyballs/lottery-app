@@ -54,4 +54,10 @@ public class LotteryServiceRepoImpl implements LotteryService {
         lotteryRepository.findAll().forEach(lotteries::add);
         return lotteries;
     }
+
+    // delete lottery, as app is designed for one lottery at given time so ok to use deleteAll()
+    @Override
+    public void delete() {
+        lotteryRepository.deleteAll();
+    }
 }

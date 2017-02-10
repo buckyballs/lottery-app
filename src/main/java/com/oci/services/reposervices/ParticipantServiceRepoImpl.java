@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service
 @Profile("springdatajpa")
-public class ParticipantServiceRepoImpl implements ParticipantService{
+public class ParticipantServiceRepoImpl implements ParticipantService {
 
     private ParticipantRepository participantRepository;
     private Participant participant;
@@ -45,5 +45,11 @@ public class ParticipantServiceRepoImpl implements ParticipantService{
         List<Participant> participants = new ArrayList<>();
         participantRepository.findAll().forEach(participants::add);
         return participants;
+    }
+
+    // delete lottery participants
+    @Override
+    public void delete() {
+        participantRepository.deleteAll();
     }
 }
