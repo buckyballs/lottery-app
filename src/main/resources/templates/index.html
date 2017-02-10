@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>OCI Lottery App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-5">
+        <img src="/images/oci.jpg" title="Title: OCI" alt="Alt: OCI" th:class="img-responsive"/>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+<div class="container">
+    <h2>OCI Lottery App</h2>
+    <br/>
+    <ul>
+        <li><a href="lottery/new" style="font-size: medium">Create Lottery</a></li>
+        <br/>
+        <li><a href="participant/new" style="font-size: medium">Participate in Lottery</a></li>
+    </ul>
+</div>
+
+</body>
+</html>
