@@ -109,6 +109,7 @@
     <build>
         <plugins>
 
+            <!--optional maven compiler plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -124,9 +125,16 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
+            <!--plugins to deploy app in gcloud-->
             <plugin>
-                <groupId>com.google.appengine</groupId>
-                <artifactId>gcloud-maven-plugin</artifactId>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>1.0.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.3.7.v20160115</version>
             </plugin>
 
         </plugins>
