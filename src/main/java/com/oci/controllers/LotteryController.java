@@ -61,10 +61,7 @@ public class LotteryController {
     @RequestMapping("/new")
     public String newLottery(Model model) {
         // Allow admin to update lottery, this will keep previously entered participants in the lottery
-        if (lotteryService.listAll().isEmpty())
-            model.addAttribute("lotteryform", lottery);
-        else
-            return "lottery/show";
+        model.addAttribute("lotteryform", lottery);
         return "lottery/lotteryform";
     }
 
