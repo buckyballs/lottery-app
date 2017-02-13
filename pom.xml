@@ -6,7 +6,7 @@
     <groupId>com.oci</groupId>
     <artifactId>lottery-app</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>Lottery</name>
     <description>Lottery door prize app</description>
