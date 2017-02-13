@@ -21,6 +21,7 @@ env: flex
 
 runtime_config:  # Optional
   jdk: openjdk8
+  server: jetty9
 
 handlers:
 - url: /.*
