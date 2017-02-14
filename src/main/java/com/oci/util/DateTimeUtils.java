@@ -18,7 +18,11 @@ public class DateTimeUtils {
             DateTime jodapastDate = new DateTime(pastDate);
             DateTime jodaFutureDate = new DateTime(futureDate);
             Period period = new Period(jodapastDate, jodaFutureDate);
-            duration = period.getDays() + " DAYS: " + period.getHours() + " HOURS: " + period.getMinutes() + " MINUTES: " + period.getSeconds() + " SECONDS: ";
+            String days = period.getDays() != 0 ? String.valueOf(period.getDays()) + " DAYS, " : "";
+            String hours = period.getHours() != 0 ? String.valueOf(period.getHours()) + " HOURS, " : "";
+            String minutes = period.getMinutes() != 0 ? String.valueOf(period.getMinutes()) + " MINUTES, " : "";
+            String seconds = period.getSeconds() != 0 ? String.valueOf(period.getSeconds()) + " SECONDS " : "";
+            duration = days + hours + minutes + seconds;
             return duration;
         } catch (Exception e) {
             e.printStackTrace();

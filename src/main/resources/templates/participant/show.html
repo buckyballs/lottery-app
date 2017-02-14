@@ -16,43 +16,49 @@
 </head>
 <body>
 <div class="container">
-    <div class="col-sm-3">
+    <div class="col-sm-9" style="margin: 80px 0px 0px 100px">
         <img src="/images/oci.jpg" title="Title: OCI" alt="Alt: OCI" th:class="img-responsive"/>
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="margin: 100px 0px 10px 150px">
 
     <div class="row">
         <div class="col-sm-6">
-            <h2 align="center">Thank you</h2>
+            <h1 align="center">Thank you</h1>
         </div>
     </div>
+    <br/>
+    <br/>
     <div class="row">
         <div class="col-sm-8">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Name:</label>
+                    <label class="col-sm-4 control-label" style="font-size: x-large">Name:</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static" th:text="${newParticipant?.name}">Participant Name</p>
+                        <p class="form-control-static" th:text="${newParticipant?.name}" style="font-size: x-large">
+                            Participant Name</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Email:</label>
+                    <label class="col-sm-4 control-label" style="font-size: x-large">Email:</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static" th:text="${newParticipant?.email}">Participant Name</p>
+                        <p class="form-control-static" th:text="${newParticipant?.email}" style="font-size: x-large">
+                            Participant Name</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Remaining Time:</label>
+                    <label class="col-sm-4 control-label" style="font-size: x-large">Remaining Time:</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static" th:text="${remainingTime}">Remaining Time for Draw</p>
+                        <p class="form-control-static" th:text="${remainingTime}" style="font-size: x-large">Remaining
+                            Time for Draw</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Win Chances:</label>
+                    <label class="col-sm-4 control-label" style="font-size: x-large">Win Chances:</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static" th:text="${winChances}">Chances To Win</p>
+                        <p class="form-control-static" th:text="${winChances}" style="font-size: x-large">Chances To
+                            Win</p>
                     </div>
                 </div>
             </form>
