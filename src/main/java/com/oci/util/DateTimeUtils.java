@@ -30,6 +30,11 @@ public class DateTimeUtils {
         return duration;
     }
 
+    /**
+     * @param date
+     * @param duration in milliseconds
+     * @return Java Date object
+     */
     public static Date plusDuration(Date date, long duration) {
         return new DateTime(date).plus(duration).toDate();
     }

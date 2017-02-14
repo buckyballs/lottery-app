@@ -21,6 +21,9 @@ public class Lottery {
     //@GeneratedValue(strategy = GenerationType.AUTO) // uncomment it to run app for multiple lotteries
     private Integer lotteryId = 1;
 
+    @Transient
+    private Integer minutesToDraw;
+
     @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm a")
     private Date drawingTime;
 
@@ -41,6 +44,14 @@ public class Lottery {
 
     public void setLotteryId(Integer lotteryId) {
         this.lotteryId = lotteryId;
+    }
+
+    public Integer getMinutesToDraw() {
+        return minutesToDraw;
+    }
+
+    public void setMinutesToDraw(Integer minutesToDraw) {
+        this.minutesToDraw = minutesToDraw;
     }
 
     public Date getDrawingTime() {

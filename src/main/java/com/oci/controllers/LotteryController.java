@@ -4,6 +4,7 @@ import com.oci.domain.Lottery;
 import com.oci.schedulers.EmailScheduler;
 import com.oci.services.LotteryService;
 import com.oci.services.ParticipantService;
+import com.oci.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * Created by maqsoodi on 1/26/2017.
@@ -78,7 +80,8 @@ public class LotteryController {
         /*if(!lotteryService.listAll().isEmpty()){
             return "redirect:errors";
         }*/
-
+        // 60*1000 to convert minutes into milliseconds
+        lottery.setDrawingTime(DateTimeUtils.plusDuration(new Date(), 60 * 1000 * Long.valueOf(lottery.getMinutesToDraw())));
         lotteryValidator.validate(lottery, bindingResult);
 
         if (bindingResult.hasErrors()) {

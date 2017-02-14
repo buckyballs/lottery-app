@@ -37,18 +37,11 @@
             <input type="hidden" th:field="*{prizeDescription}"/>
             <input type="hidden" th:field="*{msgToWinner}"/>-->
 
-            <div class="form-group"
-                 th:class="${#fields.hasErrors('drawingTime')} ? 'form-group has-error':'form-group'">
+            <div class="form-group">
                 <br/>
-                <label class="col-sm-4 control-label" style="font-size: x-large">Draw Time:</label>
+                <label class="col-sm-4 control-label" style="font-size: x-large">Minutes To Draw:</label>
                 <div class="col-sm-8">
-                    <input type="datetime" class="form-control" th:field="*{drawingTime}" th:errorclass="has-error" style="font-size: x-large"/>
-
-                    <span class="help-block">
-                       <ul>
-                           <li th:each="err : ${#fields.errors('drawingTime')}" th:text="${err}" style="font-size: x-large"/>
-                       </ul>
-                    </span>
+                    <input type="number" min="0" class="form-control" th:field="*{minutesToDraw}"/>
                 </div>
             </div>
 
