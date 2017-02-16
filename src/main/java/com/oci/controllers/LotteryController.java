@@ -5,6 +5,9 @@ import com.oci.schedulers.EmailScheduler;
 import com.oci.services.LotteryService;
 import com.oci.services.ParticipantService;
 import com.oci.util.DateTimeUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -69,7 +72,17 @@ public class LotteryController {
 
     @RequestMapping("/show/{id}")
     public String showLottery(@PathVariable Integer id, Model model) {
-        model.addAttribute("lottery", lotteryService.getById(id));
+        Lottery lottery = lotteryService.getById(id);
+        model.addAttribute("lottery", lottery);
+
+        Date drawTime = lottery.getDrawingTime();
+        emailScheduler.sendEmailToLotteryWinner(drawTime);
+        DateTime dt = new DateTime(drawTime);
+        //"2017-02-16 21:00:00"
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        String drawTimeString = fmt.print(dt);
+        model.addAttribute("drawTimeString", drawTimeString);
+
         return "lottery/show";
     }
 
