@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -71,9 +72,9 @@ public class LotteryController {
     }
 
     @RequestMapping("/show/{id}")
-    public String showLottery(@PathVariable Integer id, Model model) {
+    public ModelAndView showLottery(@PathVariable Integer id, ModelAndView modelAndView) {
         Lottery lottery = lotteryService.getById(id);
-        model.addAttribute("lottery", lottery);
+        modelAndView.addObject("lottery", lottery);
 
         Date drawTime = lottery.getDrawingTime();
         emailScheduler.sendEmailToLotteryWinner(drawTime);
@@ -81,9 +82,10 @@ public class LotteryController {
         //"2017-02-16 21:00:00"
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         String drawTimeString = fmt.print(dt);
-        model.addAttribute("drawTimeString", drawTimeString);
+        modelAndView.addObject("drawTimeString", drawTimeString);
+        modelAndView.setViewName("lottery/show");
 
-        return "lottery/show";
+        return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST)

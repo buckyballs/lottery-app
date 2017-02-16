@@ -59,6 +59,13 @@
 
 </head>
 
+<div class="form-group" id="myvar">
+    <label class="col-sm-4 control-label" style="font-size: x-large">Draw Time:</label>
+    <div class="col-sm-8">
+        <p class="form-control-static" th:text="${drawTimeString}" style="font-size: x-large">Draw Time</p>
+    </div>
+</div>
+
 <body>
 <div class="container" th:fragment="timer">
     <div class="clockdiv"><h3>Draw will start in</h3></div>
@@ -84,9 +91,9 @@
 <script>
     /*<![CDATA[*/
     // Set the date we're counting down to
+    //var endtime = "${drawTimeString}";
     function getTimeRemaining(endtime) {
-        // var endtime = "2017-02-16 21:00:00";
-        var endtime = "${drawTimeString}";
+        //var endtime = "2017-02-16 21:00:00";
         var t = Date.parse(endtime) - Date.parse(new Date());
         var seconds = Math.floor((t / 1000) % 60);
         var minutes = Math.floor((t / 1000 / 60) % 60);
@@ -125,6 +132,8 @@
         var timeinterval = setInterval(updateClock, 1000);
     }
     var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
+    // var deadline = "2017-02-16 14:00:00";
+    //var deadline = "${drawTimeString}";
     initializeClock('clockdiv', deadline);
     /*]]>*/
 </script>
