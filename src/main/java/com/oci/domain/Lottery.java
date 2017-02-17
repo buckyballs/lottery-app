@@ -24,7 +24,7 @@ public class Lottery {
     @Transient
     private Integer minutesToDraw;
 
-    @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm a")
+    @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a")
     private Date drawingTime;
 
     @Transient
@@ -63,7 +63,7 @@ public class Lottery {
     }
 
     public String getFormattedDrawningTime() {
-        return new SimpleDateFormat("MM/dd/yyyy hh:mm a").format(drawingTime);
+        return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a").format(drawingTime);
     }
 
     public void setFormattedDrawningTime(String formattedDrawningTime) {

@@ -1,5 +1,6 @@
 package com.oci.controllers;
 
+import com.oci.domain.Lottery;
 import com.oci.domain.LotteryWinner;
 import com.oci.domain.Participant;
 import com.oci.services.LotteryService;
@@ -16,10 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by maqsoodi on 1/26/2017.
@@ -62,12 +61,13 @@ public class ParticipantController {
 
     @RequestMapping("/new")
     public ModelAndView newParticipant(ModelAndView modelAndView) {
-        if (!new Date().before(lotteryService.getById(1).getDrawingTime())) {
+        Lottery lottery = lotteryService.getById(1);
+        if (!new Date().before(lottery.getDrawingTime())) {
             modelAndView.setViewName("redirect:errors");
             return modelAndView;
         } else {
-            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.getDefault());
-            modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
+            modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+            modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
             modelAndView.addObject("participantform", participant);
             modelAndView.setViewName("participant/participantform");
             return modelAndView;
@@ -77,16 +77,18 @@ public class ParticipantController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView saveOrUpdate(@Valid Participant participant, ModelAndView modelAndView) {
+        Lottery lottery = lotteryService.getById(1);
         try {
-            if (new Date().before(lotteryService.getById(1).getDrawingTime())) {
+            if (new Date().before(lottery.getDrawingTime())) {
                 List<Participant> participants = (List<Participant>) participantService.listAll();
                 if (!ObjectOperations.containsEmail(participants, participant)) {
                     // increment participant id to save as new record in table
                     participant.setParticipantId(participants.size() + 1);
                     Participant newParticipant = participantService.saveOrUpdate(participant);
                     modelAndView.addObject("newParticipant", newParticipant);
-                    modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lotteryService.getById(1).getDrawingTime()));
+                    modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
                     modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0 / participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
+                    modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
                     modelAndView.setViewName("participant/show");
                     return modelAndView;
                 } else {

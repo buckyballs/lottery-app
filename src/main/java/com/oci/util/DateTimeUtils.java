@@ -2,6 +2,8 @@ package com.oci.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,7 +15,7 @@ public class DateTimeUtils {
 
     public static String calDuration(Date pastDate, Date futureDate) {
         String duration = null;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         try {
             DateTime jodapastDate = new DateTime(pastDate);
             DateTime jodaFutureDate = new DateTime(futureDate);
@@ -41,5 +43,11 @@ public class DateTimeUtils {
 
     public static Date minusDuration(Date date, long duration) {
         return new DateTime(date).minus(duration).toDate();
+    }
+
+    public static String getDateString(Date date) {
+        DateTime dt = new DateTime(date);
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        return fmt.print(dt);
     }
 }
