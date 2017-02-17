@@ -66,7 +66,10 @@ public class ParticipantController {
             modelAndView.setViewName("redirect:errors");
             return modelAndView;
         } else {
+            // drawTimeString used by countdown timer
             modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+            // remainingTime is also shown on view in case browser does not support javascript
+            modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
             modelAndView.addObject("participantform", participant);
             modelAndView.setViewName("participant/participantform");
             return modelAndView;
@@ -86,7 +89,10 @@ public class ParticipantController {
                     Participant newParticipant = participantService.saveOrUpdate(participant);
                     modelAndView.addObject("newParticipant", newParticipant);
                     modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0 / participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
+                    // drawTimeString used by countdown timer
                     modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+                    // remainingTime is also shown on view in case browser does not support javascript
+                    modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
                     modelAndView.setViewName("participant/show");
                     return modelAndView;
                 } else {

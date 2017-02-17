@@ -48,7 +48,14 @@
                     <label class="col-sm-4 control-label" style="font-size: x-large">Email:</label>
                     <div class="col-sm-8">
                         <p class="form-control-static" th:text="${newParticipant?.email}" style="font-size: x-large">
-                            Participant Name</p>
+                            Participant Email</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="font-size: x-large">Remaining Time:</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" th:text="${remainingTime}" style="font-size: x-large">Remaining
+                            Time for Draw</p>
                     </div>
                 </div>
                 <div class="form-group">

@@ -72,7 +72,10 @@ public class LotteryController {
     public ModelAndView showLottery(@PathVariable Integer id, ModelAndView modelAndView) {
         Lottery lottery = lotteryService.getById(id);
         modelAndView.addObject("lottery", lottery);
+        // drawTimeString used by countdown timer
         modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+        // remainingTime is also shown on view in case browser does not support javascript
+        modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
         modelAndView.setViewName("lottery/show");
 
         return modelAndView;
