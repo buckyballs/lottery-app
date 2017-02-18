@@ -68,6 +68,9 @@ public class ParticipantController {
         } else {
             // drawTimeString used by countdown timer
             modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+            // provide currentTimeString from server to correctly display countdown timer values
+            // in case time mismatches on client and server machines
+            modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
             // remainingTime is also shown on view in case browser does not support javascript
             modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
             modelAndView.addObject("participantform", participant);
@@ -91,6 +94,9 @@ public class ParticipantController {
                     modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0 / participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
                     // drawTimeString used by countdown timer
                     modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+                    // provide currentTimeString from server to correctly display countdown timer values
+                    // in case time mismatches on client and server machines
+                    modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
                     // remainingTime is also shown on view in case browser does not support javascript
                     modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
                     modelAndView.setViewName("participant/show");

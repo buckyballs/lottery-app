@@ -74,6 +74,9 @@ public class LotteryController {
         modelAndView.addObject("lottery", lottery);
         // drawTimeString used by countdown timer
         modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+        // provide currentTimeString from server to correctly display countdown timer values
+        // in case time mismatches on client and server machines
+        modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
         // remainingTime is also shown on view in case browser does not support javascript
         modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
         modelAndView.setViewName("lottery/show");
