@@ -36,12 +36,21 @@
             <input type="hidden" th:field="*{passwordText}"/>
             <input type="hidden" th:field="*{prizeDescription}"/>
             <input type="hidden" th:field="*{msgToWinner}"/>-->
-
-            <div class="form-group">
-                <br/>
+            <br/>
+            <div class="form-group"
+                 th:class="${#fields.hasErrors('minutesToDraw')}?'form-group has-error':'form-group'">
                 <label class="col-sm-4 control-label" style="font-size: x-large">Minutes To Draw:</label>
                 <div class="col-sm-8">
-                    <input type="number" min="0" class="form-control" th:field="*{minutesToDraw}" style="font-size: x-large"/>
+                    <input type="number" min="0" class="form-control" th:field="*{minutesToDraw}"
+                           th:errorclass="has-error"
+                           style="font-size: x-large"/>
+
+                    <span class="help-block">
+                       <ul>
+                           <li th:each="err : ${#fields.errors('minutesToDraw')}" th:text="${err}"
+                               style="font-size: x-large"/>
+                       </ul>
+                    </span>
                 </div>
             </div>
 
@@ -49,11 +58,13 @@
                  th:class="${#fields.hasErrors('passwordText')} ? 'form-group has-error' : 'form-group'">
                 <label class="col-sm-4 control-label" style="font-size: x-large">Password:</label>
                 <div class="col-sm-8">
-                    <input type="password" class="form-control" th:field="*{passwordText}" th:errorclass="has-error" style="font-size: x-large"/>
+                    <input type="password" class="form-control" th:field="*{passwordText}" th:errorclass="has-error"
+                           style="font-size: x-large"/>
 
                     <span class="help-block">
                        <ul>
-                           <li th:each="err : ${#fields.errors('passwordText')}" th:text="${err}" style="font-size: x-large"/>
+                           <li th:each="err : ${#fields.errors('passwordText')}" th:text="${err}"
+                               style="font-size: x-large"/>
                        </ul>
                     </span>
                 </div>
@@ -63,11 +74,13 @@
                  th:class="${#fields.hasErrors('prizeDescription')} ? 'form-group has-error':'form-group'">
                 <label class="col-sm-4 control-label" style="font-size: x-large">Prize Description:</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" th:field="*{prizeDescription}" th:errorclass="has-error" style="font-size: x-large"/>
+                    <input type="text" class="form-control" th:field="*{prizeDescription}" th:errorclass="has-error"
+                           style="font-size: x-large"/>
 
                     <span class="help-block">
                        <ul>
-                           <li th:each="err : ${#fields.errors('prizeDescription')}" th:text="${err}" style="font-size: x-large"/>
+                           <li th:each="err : ${#fields.errors('prizeDescription')}" th:text="${err}"
+                               style="font-size: x-large"/>
                        </ul>
                     </span>
                 </div>
@@ -77,11 +90,13 @@
                  th:class="${#fields.hasErrors('msgToWinner')} ? 'form-group has-error':'form-group'">
                 <label class="col-sm-4 control-label" style="font-size: x-large">Message To Winner:</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" th:field="*{msgToWinner}" th:errorclass="has-error" style="font-size: x-large"/>
+                    <input type="text" class="form-control" th:field="*{msgToWinner}" th:errorclass="has-error"
+                           style="font-size: x-large"/>
 
                     <span class="help-block">
                        <ul>
-                           <li th:each="err : ${#fields.errors('msgToWinner')}" th:text="${err}" style="font-size: x-large"/>
+                           <li th:each="err : ${#fields.errors('msgToWinner')}" th:text="${err}"
+                               style="font-size: x-large"/>
                        </ul>
                     </span>
                 </div>

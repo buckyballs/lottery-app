@@ -92,9 +92,13 @@ public class LotteryController {
             return "redirect:errors";
         }*/
         // 60*1000 to convert minutes into milliseconds
-        lottery.setDrawingTime(DateTimeUtils.plusDuration(new Date(), 60 * 1000 * Long.valueOf(lottery.getMinutesToDraw())));
-        lotteryValidator.validate(lottery, bindingResult);
+        if (lottery.getMinutesToDraw() != null) {
+            lottery.setDrawingTime(DateTimeUtils.plusDuration(new Date(), 60 * 1000 * Long.valueOf(lottery.getMinutesToDraw())));
+        } else {
+            lottery.setDrawingTime(null);
+        }
 
+        lotteryValidator.validate(lottery, bindingResult);
         if (bindingResult.hasErrors()) {
             return "lottery/lotteryform";
         }
