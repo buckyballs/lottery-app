@@ -8,7 +8,10 @@ import com.oci.services.ParticipantService;
 import com.oci.util.DateTimeUtils;
 import com.oci.util.ObjectOperations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +33,7 @@ public class ParticipantController {
     private Participant participant;
     private ParticipantService participantService;
     private LotteryService lotteryService;
+    private Validator participantValidator;
 
     @Autowired
     private LotteryWinner lotteryWinner;
@@ -49,7 +53,13 @@ public class ParticipantController {
         this.lotteryService = lotteryService;
     }
 
-/*    @Autowired
+    @Autowired
+    @Qualifier("participantValidator")
+    public void setParticipantValidator(Validator participantValidator) {
+        this.participantValidator = participantValidator;
+    }
+
+    /*    @Autowired
     public void setLotteryWinner(LotteryWinner lotteryWinner) {
         this.lotteryWinner = lotteryWinner;
     }*/
@@ -63,7 +73,8 @@ public class ParticipantController {
     public ModelAndView newParticipant(ModelAndView modelAndView) {
         Lottery lottery = lotteryService.getById(1);
         if (!new Date().before(lottery.getDrawingTime())) {
-            modelAndView.setViewName("redirect:errors");
+            modelAndView.addObject("errorMsg", "Request cannot be submitted");
+            modelAndView.setViewName("error");
             return modelAndView;
         } else {
             // drawTimeString used by countdown timer
@@ -81,7 +92,14 @@ public class ParticipantController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView saveOrUpdate(@Valid Participant participant, ModelAndView modelAndView) {
+    public ModelAndView saveOrUpdate(@Valid Participant participant, BindingResult bindingResult, ModelAndView modelAndView) {
+
+        participantValidator.validate(participant, bindingResult);
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("participant/participantform");
+            return modelAndView;
+        }
+
         Lottery lottery = lotteryService.getById(1);
         try {
             if (new Date().before(lottery.getDrawingTime())) {
@@ -102,16 +120,19 @@ public class ParticipantController {
                     modelAndView.setViewName("participant/show");
                     return modelAndView;
                 } else {
-                    modelAndView.setViewName("redirect:errors");
+                    modelAndView.addObject("errorMsg", "Request cannot be submitted");
+                    modelAndView.setViewName("error");
                     return modelAndView;
                 }
             } else {
-                modelAndView.setViewName("redirect:errors");
+                modelAndView.addObject("errorMsg", "Request cannot be submitted");
+                modelAndView.setViewName("error");
                 return modelAndView;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            modelAndView.setViewName("redirect:errors");
+            modelAndView.addObject("errorMsg", "Request cannot be submitted");
+            modelAndView.setViewName("error");
             return modelAndView;
         }
     }

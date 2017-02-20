@@ -87,10 +87,6 @@ public class LotteryController {
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid Lottery lottery, BindingResult bindingResult) {
 
-        // Allow admin to update lottery, this will keep previously entered participants in the lottery
-        /*if(!lotteryService.listAll().isEmpty()){
-            return "redirect:errors";
-        }*/
         // 60*1000 to convert minutes into milliseconds
         if (lottery.getMinutesToDraw() != null) {
             lottery.setDrawingTime(DateTimeUtils.plusDuration(new Date(), 60 * 1000 * Long.valueOf(lottery.getMinutesToDraw())));
