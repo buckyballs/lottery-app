@@ -32,10 +32,10 @@ public class LotteryValidator implements Validator {
         }
         // separate null and valid date parts as we want to show date errors if any of this not valid, removed if else which was limiting error display scope
         if (lottery.getDrawingTime() == null) {
-            errors.rejectValue("minutesToDraw", "NullDrawTimeDate.lotteryForm.drawingTime", "Please Enter valid Minutes To Draw In Positive Number");
+            errors.rejectValue("minutesToDraw", "NullDrawTimeDate.lotteryForm.drawingTime", "Please Enter Valid Minutes To Draw In Positive Number");
         }
         if (lottery.getDrawingTime() != null && lottery.getDrawingTime().before(new Date())) {
-            errors.rejectValue("minutesToDraw", "PastDrawTimeDate.lotteryForm.drawingTime", "Please Enter valid Minutes To Draw In Positive Number");
+            errors.rejectValue("minutesToDraw", "PastDrawTimeDate.lotteryForm.drawingTime", "Please Enter Valid Minutes To Draw In Positive Number");
         }
     }
 }

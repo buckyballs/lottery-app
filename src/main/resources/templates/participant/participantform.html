@@ -45,7 +45,7 @@
             </div>
 
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                <p th:text="#{form.hasErrors}">Error Message</p>
+                <p th:text="#{form.hasErrors}" style="font-size: x-large">Error Message</p>
             </div>
 
             <!--<input type="hidden" th:field="*{name}"/>
@@ -59,7 +59,8 @@
 
                     <span class="help-block">
                        <ul>
-                           <li th:each="err : ${#fields.errors('name')}" th:text="${err}"/>
+                           <li th:each="err : ${#fields.errors('name')}" th:text="${err}"
+                           style="font-size: x-large"/>
                        </ul>
                     </span>
                 </div>
@@ -74,7 +75,8 @@
 
                     <span class="help-block">
                        <ul>
-                           <li th:each="err : ${#fields.errors('email')}" th:text="${err}"/>
+                           <li th:each="err : ${#fields.errors('email')}" th:text="${err}"
+                           style="font-size: x-large"/>
                        </ul>
                     </span>
                 </div>
