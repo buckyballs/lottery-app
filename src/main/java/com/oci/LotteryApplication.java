@@ -15,5 +15,4 @@ public class LotteryApplication {
             System.out.println("[" + i + "]" + beanNAme);
         }
     }
-
 }

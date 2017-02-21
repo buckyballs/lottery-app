@@ -24,7 +24,7 @@ public class Lottery {
     private Integer minutesToDraw;
 
     @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a")
-    private Date drawingTime;
+    private Date drawTime;
 
     private String passwordText;
 
@@ -50,12 +50,12 @@ public class Lottery {
         this.minutesToDraw = minutesToDraw;
     }
 
-    public Date getDrawingTime() {
-        return drawingTime;
+    public Date getDrawTime() {
+        return drawTime;
     }
 
-    public void setDrawingTime(Date drawingTime) {
-        this.drawingTime = drawingTime;
+    public void setDrawTime(Date drawTime) {
+        this.drawTime = drawTime;
     }
 
     public String getPasswordText() {
