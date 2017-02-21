@@ -4,7 +4,6 @@ import com.oci.domain.Lottery;
 import com.oci.schedulers.EmailScheduler;
 import com.oci.services.LotteryService;
 import com.oci.services.ParticipantService;
-import com.oci.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Date;
 
 /**
  * Created by maqsoodi on 1/26/2017.
@@ -63,7 +61,7 @@ public class LotteryController {
 
     @RequestMapping("/new")
     public String newLottery(Model model) {
-        // Allow admin to update lottery, this will keep previously entered participants in the lottery
+        // Allow admin to update lottery, this will preserve previously entered lottery values
         model.addAttribute("lotteryform", lottery);
         return "lottery/lotteryform";
     }
@@ -71,37 +69,24 @@ public class LotteryController {
     @RequestMapping("/show/{id}")
     public ModelAndView showLottery(@PathVariable Integer id, ModelAndView modelAndView) {
         Lottery lottery = lotteryService.getById(id);
-        modelAndView.addObject("lottery", lottery);
-        // drawTimeString used by countdown timer
-        modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
-        // provide currentTimeString from server to correctly display countdown timer values
-        // in case time mismatches on client and server machines
-        modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
-        // remainingTime is also shown on view in case browser does not support javascript
-        modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
-        modelAndView.setViewName("lottery/show");
-
+        lotteryService.showLottery(lottery, modelAndView);
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid Lottery lottery, BindingResult bindingResult) {
-
-        // 60*1000 to convert minutes into milliseconds
-        if (lottery.getMinutesToDraw() != null) {
-            lottery.setDrawingTime(DateTimeUtils.plusDuration(new Date(), 60 * 1000 * Long.valueOf(lottery.getMinutesToDraw())));
-        } else {
-            lottery.setDrawingTime(null);
-        }
-
-        lotteryValidator.validate(lottery, bindingResult);
+        // 1. Update lottery draw time
+        Lottery updatedLottery = lotteryService.setDrawTimeFromMinutes(lottery);
+        // 2. Validate lottery
+        lotteryValidator.validate(updatedLottery, bindingResult);
         if (bindingResult.hasErrors()) {
             return "lottery/lotteryform";
         }
-
-        Lottery newLottery = lotteryService.saveOrUpdate(lottery);
-        emailScheduler.sendEmailToLotteryWinner(newLottery.getDrawingTime());
-        return "redirect:lottery/show/" + newLottery.getLotteryId();
+        // 3. Save lottery to DB
+        Lottery savedLottery = lotteryService.saveOrUpdate(updatedLottery);
+        //4. Schedule future thread to send email to lottery winner based on new draw time
+        emailScheduler.sendEmailToLotteryWinner(savedLottery.getDrawTime());
+        return "redirect:lottery/show/" + savedLottery.getLotteryId();
     }
 
     @RequestMapping(value = "/delete-oci-lottery", method = RequestMethod.GET)

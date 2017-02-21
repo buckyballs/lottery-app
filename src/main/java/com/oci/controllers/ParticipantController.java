@@ -74,18 +74,18 @@ public class ParticipantController {
         Lottery lottery = lotteryService.getById(1);
 
         if (lottery != null) {
-            if (!new Date().before(lottery.getDrawingTime())) {
+            if (!new Date().before(lottery.getDrawTime())) {
                 modelAndView.addObject("errorMsg", "Request cannot be submitted");
                 modelAndView.setViewName("error");
                 return modelAndView;
             } else {
                 // drawTimeString used by countdown timer
-                modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+                modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawTime()));
                 // provide currentTimeString from server to correctly display countdown timer values
                 // in case time mismatches on client and server machines
                 modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
                 // remainingTime is also shown on view in case browser does not support javascript
-                modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
+                modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawTime()));
                 modelAndView.addObject("participantform", participant);
                 modelAndView.setViewName("participant/participantform");
                 return modelAndView;
@@ -109,7 +109,7 @@ public class ParticipantController {
 
         Lottery lottery = lotteryService.getById(1);
         try {
-            if (new Date().before(lottery.getDrawingTime())) {
+            if (new Date().before(lottery.getDrawTime())) {
                 List<Participant> participants = (List<Participant>) participantService.listAll();
                 if (!ObjectOperations.containsEmail(participants, participant)) {
                     // increment participant id to save as new record in table
@@ -118,12 +118,12 @@ public class ParticipantController {
                     modelAndView.addObject("newParticipant", newParticipant);
                     modelAndView.addObject("winChances", participantService.listAll().isEmpty() ? "100%" : BigDecimal.valueOf(100.0 / participantService.listAll().size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
                     // drawTimeString used by countdown timer
-                    modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+                    modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawTime()));
                     // provide currentTimeString from server to correctly display countdown timer values
                     // in case time mismatches on client and server machines
                     modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
                     // remainingTime is also shown on view in case browser does not support javascript
-                    modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
+                    modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawTime()));
                     modelAndView.setViewName("participant/show");
                     return modelAndView;
                 } else {

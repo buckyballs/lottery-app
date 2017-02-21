@@ -45,7 +45,7 @@ public class EmailScheduler {
         @Override
         public void run() {
             // Have draw to get winner
-            Date drawTime = lotteryService.getById(1).getDrawingTime();
+            Date drawTime = lotteryService.getById(1).getDrawTime();
             Date currentTime = new Date();
             // Go for draw if current time is within 10 seconds of set draw time by Admin
             // This is to avoid previous created ScheduledFuture threads to execute as admin has set new draw time
