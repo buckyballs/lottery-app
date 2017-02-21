@@ -72,20 +72,27 @@ public class ParticipantController {
     @RequestMapping("/new")
     public ModelAndView newParticipant(ModelAndView modelAndView) {
         Lottery lottery = lotteryService.getById(1);
-        if (!new Date().before(lottery.getDrawingTime())) {
+
+        if (lottery != null) {
+            if (!new Date().before(lottery.getDrawingTime())) {
+                modelAndView.addObject("errorMsg", "Request cannot be submitted");
+                modelAndView.setViewName("error");
+                return modelAndView;
+            } else {
+                // drawTimeString used by countdown timer
+                modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
+                // provide currentTimeString from server to correctly display countdown timer values
+                // in case time mismatches on client and server machines
+                modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
+                // remainingTime is also shown on view in case browser does not support javascript
+                modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
+                modelAndView.addObject("participantform", participant);
+                modelAndView.setViewName("participant/participantform");
+                return modelAndView;
+            }
+        } else {
             modelAndView.addObject("errorMsg", "Request cannot be submitted");
             modelAndView.setViewName("error");
-            return modelAndView;
-        } else {
-            // drawTimeString used by countdown timer
-            modelAndView.addObject("drawTimeString", DateTimeUtils.getDateString(lottery.getDrawingTime()));
-            // provide currentTimeString from server to correctly display countdown timer values
-            // in case time mismatches on client and server machines
-            modelAndView.addObject("currentTimeString", DateTimeUtils.getDateString(new Date()));
-            // remainingTime is also shown on view in case browser does not support javascript
-            modelAndView.addObject("remainingTime", DateTimeUtils.calDuration(new Date(), lottery.getDrawingTime()));
-            modelAndView.addObject("participantform", participant);
-            modelAndView.setViewName("participant/participantform");
             return modelAndView;
         }
     }
