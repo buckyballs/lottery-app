@@ -69,6 +69,13 @@ public class ParticipantController {
         return participant;
     }
 
+    @RequestMapping("/list")
+    public ModelAndView listProducts(ModelAndView modelAndView) {
+        modelAndView.addObject("participants", participantService.listAll());
+        modelAndView.setViewName("participant/list");
+        return modelAndView;
+    }
+
     @RequestMapping("/new")
     public ModelAndView newParticipant(ModelAndView modelAndView) {
         Lottery lottery = lotteryService.getById(1);
