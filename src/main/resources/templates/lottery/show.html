@@ -64,12 +64,25 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-4">
             <form class="form-horizontal" th:action="@{/lottery/delete-oci-lottery}" method="get">
 
                 <div class="row" align="center">
                     <button type="submit" class="btn btn-default" style="background-color: hotpink; font-size: x-large">
                         Delete Lottery
+                    </button>
+                    <!-- this also works -->
+                    <!--<td><a th:href="${'/lottery/delete-oci-lottery'}">Delete</a></td>-->
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-4">
+            <form class="form-horizontal" th:action="@{/participant/list}" method="get">
+
+                <div class="row" align="center">
+                    <button type="submit" class="btn btn-default" style="background-color: greenyellow; font-size: x-large">
+                        View Participants
                     </button>
                     <!-- this also works -->
                     <!--<td><a th:href="${'/lottery/delete-oci-lottery'}">Delete</a></td>-->
